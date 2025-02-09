@@ -2,7 +2,6 @@
 
 import os from 'node:os';
 import SystemMonitor from "./index.js";
-import internal from 'node:stream';
 
 const args = process.argv.slice(2);
 
