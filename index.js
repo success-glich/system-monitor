@@ -15,7 +15,7 @@ class SystemMonitor{
     start(){
         this.#oldCpus = os.cpus();
         this.#intervalId = setInterval(()=>this.#monitor(),this.options.interval);
-
+   
         return this.stop.bind(this);
     }
 
@@ -26,17 +26,18 @@ class SystemMonitor{
     }
 
     #monitor(){
-        const newCpus = os.cpus();
 
+        const newCpus = os.cpus();
+    
         const cpuUsage = newCpus.map((cpu,index)=>({
             core:index,
             usage :this.#calculateCPUUsage(this.#oldCpus[index],cpu),
         }));
+
         
         this.#oldCpus = newCpus;
-        
         const memoryUsage = this.#calculateMemoryUsage();
-        
+
         if(this.options.clearConsole){
             console.clear();
         }
@@ -47,13 +48,13 @@ class SystemMonitor{
     }
 
     #calculateCPUUsage(oldCpu,newCpu){
-        const oldCpu = Object.values(oldCpu.times).reduce((acc,time)=>acc+time,0);
-        const newCpu = Object.values(newCpu.times).reduce((acc,time)=>acc+time,0);
 
-        const totalDiff = newCpu - oldCpu;
-        const idleDiff = newCpu.idle - oldCpu.idle;
+        const oldTotal= Object.values(oldCpu.times).reduce((acc,time)=>acc+time,0);
+        const newTotal = Object.values(newCpu.times).reduce((acc,time)=>acc+time,0);
+       
+        const totalDiff = newTotal - oldTotal;
+        const idleDiff = newCpu.times.idle - oldCpu.times.idle;
         const used = totalDiff - idleDiff;
-
         return `${((100*used) /totalDiff).toFixed(1)}%`
     }
 
