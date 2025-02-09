@@ -1,5 +1,5 @@
 {
-  "name": "system-monitor-pro",
+  "name": "system-monitor",
   "version": "1.0.0",
   "description": "Real-time system monitoring tool for Node.js with CPU and memory tracking",
   "main": "index.js",
